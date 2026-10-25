@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sievepad: Sieve email filter playground</title>
+  <meta name="description"
+    content="Write, test and share Sieve email filters in your browser. Powered by the Sieve interpreter of Stalwart Mail Server." />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#08080b" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="__ASSETS__/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="__ASSETS__/fonts/space-grotesk-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="__ASSETS__/style.css" />
+  <link rel="stylesheet" data-name="vs/editor/editor.main" href="./vendor/monaco-0.52.2/vs/editor/editor.main.css" />
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <a class="brand-logo" href="https://stalw.art" target="_blank" rel="noopener" aria-label="Stalwart">
+        <svg class="logo-full" viewBox="99 84 482 83" aria-hidden="true">
+          <g class="logo-icon">
+            <path d="M149.1,84.7h-4.8l-44.8,25.9v8.3l44.8,25.9h4.8l44.8-25.9v-8.3L149.1,84.7z M182,114.7h-35.3V94.4L182,114.7z M146.7,135.1l-35.3-20.4l27-15.6v15.6v4.1v0.5l6.3,3.6h22.9L146.7,135.1z" />
+            <polygon points="99.5,129.9 99.5,140.9 144.3,166.8 149.1,166.8 193.9,140.9 193.9,129.9 146.7,157.2" />
+            <polygon points="187.3,166.8 193.9,163 193.9,152 168.2,166.8" />
+            <polygon points="99.5,163 106.1,166.8 125.2,166.8 99.5,152" />
+          </g>
+          <g class="logo-word">
+            <path d="M227.8,143.6c0.3,4.2,2.1,7.6,5.1,10.1c3.1,2.5,7.1,3.8,12.1,3.8c4.3,0,7.9-0.9,10.5-2.8c2.7-1.9,4-4.5,4-7.8c0-2.4-0.7-4.3-2.2-5.7c-1.5-1.4-3.4-2.5-6-3.2c-2.5-0.7-6-1.5-10.6-2.3c-4.6-0.8-8.6-1.9-11.9-3.2c-3.3-1.3-6-3.3-8.1-6.1c-2.1-2.7-3.1-6.3-3.1-10.7c0-4.1,1.1-7.7,3.2-10.9c2.1-3.2,5.1-5.7,9-7.4c3.8-1.8,8.2-2.6,13.2-2.6c5.1,0,9.6,1,13.7,2.9c4,1.9,7.2,4.5,9.5,7.8c2.3,3.3,3.6,7.1,3.8,11.4h-11.5c-0.4-3.7-2-6.6-4.8-8.9c-2.8-2.2-6.3-3.4-10.6-3.4c-4.1,0-7.5,0.9-9.9,2.7c-2.5,1.8-3.7,4.3-3.7,7.6c0,2.3,0.7,4.1,2.2,5.5c1.5,1.4,3.4,2.4,5.9,3.1c2.4,0.7,5.9,1.4,10.5,2.2c4.6,0.8,8.6,1.9,11.9,3.3c3.3,1.4,6,3.4,8.2,6c2.1,2.6,3.2,6.1,3.2,10.5c0,4.2-1.1,8-3.4,11.3c-2.2,3.3-5.4,5.9-9.4,7.8c-4,1.9-8.6,2.8-13.7,2.8c-5.6,0-10.6-1-14.9-3.1c-4.3-2-7.6-4.9-10-8.5c-2.4-3.6-3.7-7.8-3.7-12.5L227.8,143.6z" />
+            <path d="M278.5,102.1l11-2.1v14.6h12.6v9.7h-12.6v27.2c0,2,0.4,3.5,1.2,4.3c0.8,0.9,2.2,1.3,4.2,1.3h8.4v9.7h-10.6c-5,0-8.6-1.2-10.8-3.5c-2.2-2.3-3.4-5.9-3.4-10.7V102.1z" />
+            <path d="M356.8,114.6v52.2h-9.7l-1.2-7.9c-1.8,2.6-4.2,4.7-7,6.2c-2.9,1.6-6.2,2.3-10,2.3c-4.8,0-9-1.1-12.7-3.2c-3.7-2.1-6.7-5.2-8.8-9.3c-2.1-4-3.2-8.8-3.2-14.2c0-5.3,1.1-10,3.2-14c2.1-4,5.1-7.2,8.8-9.4c3.7-2.2,7.9-3.3,12.6-3.3c3.9,0,7.2,0.7,10.1,2.2c2.9,1.5,5.2,3.5,6.9,6.1l1.3-7.6H356.8z M341.7,153.3c2.8-3.2,4.2-7.3,4.2-12.4c0-5.2-1.4-9.4-4.2-12.6c-2.8-3.3-6.5-4.9-11-4.9c-4.6,0-8.2,1.6-11,4.8c-2.8,3.2-4.2,7.4-4.2,12.5c0,5.2,1.4,9.4,4.2,12.6c2.8,3.2,6.5,4.8,11,4.8C335.2,158.1,338.9,156.5,341.7,153.3z" />
+            <path d="M365.5,97.5l11-2.1v71.3h-11V97.5z" />
+            <path d="M380.3,114.6h11.6l11.9,39.9l11.9-39.9h10.1l11.4,39.9l12.3-39.9h11.2l-17.3,52.2h-11.8l-11-35.5l-11.4,35.5l-11.9,0.1L380.3,114.6z" />
+            <path d="M513.7,114.6v52.2H504l-1.2-7.9c-1.8,2.6-4.2,4.7-7,6.2c-2.9,1.6-6.2,2.3-10,2.3c-4.8,0-9-1.1-12.7-3.2c-3.7-2.1-6.7-5.2-8.8-9.3c-2.1-4-3.2-8.8-3.2-14.2c0-5.3,1.1-10,3.2-14c2.1-4,5.1-7.2,8.8-9.4c3.7-2.2,7.9-3.3,12.6-3.3c3.9,0,7.2,0.7,10.1,2.2c2.9,1.5,5.2,3.5,6.9,6.1l1.3-7.6H513.7z M498.6,153.3c2.8-3.2,4.2-7.3,4.2-12.4c0-5.2-1.4-9.4-4.2-12.6c-2.8-3.3-6.5-4.9-11-4.9c-4.6,0-8.2,1.6-11,4.8c-2.8,3.2-4.2,7.4-4.2,12.5c0,5.2,1.4,9.4,4.2,12.6c2.8,3.2,6.5,4.8,11,4.8C492.2,158.1,495.8,156.5,498.6,153.3z" />
+            <path d="M551.3,114.6v10.3h-4.9c-4.6,0-7.8,1.5-9.9,4.4c-2,3-3.1,6.7-3.1,11.3v26.2h-11v-52.2h9.8l1.2,7.8c1.5-2.4,3.4-4.4,5.8-5.8c2.4-1.4,5.6-2.1,9.6-2.1H551.3z" />
+            <path d="M556.3,102.1l11-2.1v14.6h12.6v9.7h-12.6v27.2c0,2,0.4,3.5,1.2,4.3c0.8,0.9,2.2,1.3,4.2,1.3h8.4v9.7h-10.6c-5,0-8.6-1.2-10.8-3.5s-3.4-5.9-3.4-10.7V102.1z" />
+          </g>
+        </svg>
+        <svg class="logo-mark" viewBox="99 84 95 83" aria-hidden="true">
+          <g class="logo-icon">
+            <path d="M149.1,84.7h-4.8l-44.8,25.9v8.3l44.8,25.9h4.8l44.8-25.9v-8.3L149.1,84.7z M182,114.7h-35.3V94.4L182,114.7z M146.7,135.1l-35.3-20.4l27-15.6v15.6v4.1v0.5l6.3,3.6h22.9L146.7,135.1z" />
+            <polygon points="99.5,129.9 99.5,140.9 144.3,166.8 149.1,166.8 193.9,140.9 193.9,129.9 146.7,157.2" />
+            <polygon points="187.3,166.8 193.9,163 193.9,152 168.2,166.8" />
+            <polygon points="99.5,163 106.1,166.8 125.2,166.8 99.5,152" />
+          </g>
+        </svg>
+      </a>
+      <span class="brand-divider" aria-hidden="true"></span>
+      <a class="brand-name" href="./">Sievepad</a>
+    </div>
+
+    <div class="toolbar">
+      <span class="toolbar-slash" aria-hidden="true">/</span>
+      <div class="menu" id="workspace-menu">
+        <button class="btn ghost menu-trigger" type="button" aria-haspopup="true" aria-expanded="false">
+          <span class="menu-label" id="workspace-name">Workspace</span>
+          <svg class="chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="M4 6l4 4 4-4" /></svg>
+        </button>
+        <div class="menu-panel" role="menu" hidden>
+          <div class="menu-section">Workspaces</div>
+          <div class="menu-list" id="workspace-list"></div>
+          <div class="menu-sep"></div>
+          <button type="button" role="menuitem" data-action="new-workspace">New workspace</button>
+          <button type="button" role="menuitem" data-action="duplicate-workspace">Duplicate</button>
+          <button type="button" role="menuitem" data-action="rename-workspace">Rename…</button>
+          <button type="button" role="menuitem" data-action="delete-workspace">Delete…</button>
+          <div class="menu-sep"></div>
+          <button type="button" role="menuitem" data-action="export-workspace">Export to file</button>
+          <button type="button" role="menuitem" data-action="import-workspace">Import from file…</button>
+        </div>
+      </div>
+
+      <div class="menu" id="examples-menu">
+        <button class="btn ghost menu-trigger" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Examples">
+          <svg class="show-narrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 2.5h7.5l2.5 2.5v8.5H3zM5.5 6.5h5M5.5 9h5M5.5 11.5h3" /></svg>
+          <span class="hide-narrow">Examples</span>
+        </button>
+        <div class="menu-panel wide" role="menu" hidden>
+          <div class="menu-section">Open an example as a new workspace</div>
+          <div id="examples-list"></div>
+        </div>
+      </div>
+
+      <span class="toolbar-gap"></span>
+
+      <button class="btn ghost icon-only" type="button" id="share-button" title="Share this workspace" aria-label="Share">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 9l4-2M6 7l4 2M4.5 10a2 2 0 100-4 2 2 0 000 4zM11.5 6a2 2 0 100-4 2 2 0 000 4zM11.5 14a2 2 0 100-4 2 2 0 000 4z" /></svg>
+      </button>
+      <button class="btn ghost icon-only" type="button" id="settings-button" title="Settings" aria-label="Settings">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4.5h6M11.5 4.5h2M2.5 11.5h2M7.5 11.5h6M10 3v3M6 10v3" /></svg>
+      </button>
+      <button class="btn primary" type="button" id="run-button" title="Run (Ctrl+Enter)">
+        Run <kbd id="run-shortcut">Ctrl ↵</kbd>
+      </button>
+    </div>
+  </header>
+
+  <nav class="mobile-tabs" aria-label="Panels">
+    <button type="button" data-panel="script" class="active">Script</button>
+    <button type="button" data-panel="message">Message</button>
+    <button type="button" data-panel="result">Result</button>
+  </nav>
+
+  <main class="workbench" id="workbench">
+    <section class="panel active" data-panel="script" aria-label="Sieve script">
+      <div class="panel-head">
+        <span class="panel-title">Script</span>
+        <div class="tabs" id="script-tabs" role="tablist"></div>
+        <button class="icon-btn" type="button" id="add-script" title="Add an include script">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>
+        </button>
+      </div>
+      <div class="editor-host" id="script-editor"></div>
+      <div class="problems" id="problems" data-state="idle"></div>
+    </section>
+
+    <div class="gutter" data-gutter="0" role="separator" aria-orientation="vertical" tabindex="0"></div>
+
+    <section class="panel" data-panel="message" aria-label="Test message">
+      <div class="panel-head">
+        <span class="panel-title">Message</span>
+        <div class="tabs" id="message-tabs" role="tablist"></div>
+        <button class="icon-btn" type="button" id="add-message" title="Add a test message">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>
+        </button>
+      </div>
+      <div class="editor-host drop-target" id="message-editor">
+        <div class="drop-hint">Drop an .eml or .sieve file</div>
+      </div>
+      <details class="envelope" id="envelope">
+        <summary>
+          <span>Envelope</span>
+          <span class="envelope-summary" id="envelope-summary"></span>
+        </summary>
+        <div class="envelope-grid">
+          <label for="envelope-from">MAIL FROM</label>
+          <input id="envelope-from" type="text" spellcheck="false" autocomplete="off" />
+          <label for="envelope-to">RCPT TO</label>
+          <input id="envelope-to" type="text" spellcheck="false" autocomplete="off" placeholder="comma separated" />
+        </div>
+      </details>
+    </section>
+
+    <div class="gutter" data-gutter="1" role="separator" aria-orientation="vertical" tabindex="0"></div>
+
+    <section class="panel" data-panel="result" aria-label="Result">
+      <div class="panel-head">
+        <span class="panel-title">Result</span>
+        <div class="tabs" role="tablist" id="result-tabs">
+          <button type="button" role="tab" class="tab active" data-view="actions">Actions</button>
+          <button type="button" role="tab" class="tab" data-view="messages">Messages <span class="count" id="messages-count"></span></button>
+          <button type="button" role="tab" class="tab" data-view="variables">Variables</button>
+        </div>
+      </div>
+      <div class="result-body" id="result-body">
+        <div class="result-view active" data-view="actions" id="actions-view"></div>
+        <div class="result-view" data-view="messages" id="messages-view"></div>
+        <div class="result-view" data-view="variables" id="variables-view"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="statusbar">
+    <span class="status-item" id="engine-status" data-state="loading">Loading engine…</span>
+    <span class="status-item" id="compile-status"></span>
+    <span class="status-item" id="run-stats"></span>
+    <span class="status-spacer"></span>
+    <button class="status-item status-link" type="button" id="privacy-link" title="How Sievepad handles your data">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 017 0v2M3.5 7h9v6.5h-9z" /></svg>
+      <span class="hide-narrow">Runs in your browser</span>
+    </button>
+    <a class="status-item engine-link" href="https://stalw.art" target="_blank" rel="noopener">Stalwart Sieve <span id="engine-version"></span></a>
+  </footer>
+
+  <div class="drawer-backdrop" id="settings-backdrop" hidden></div>
+  <aside class="drawer" id="settings-drawer" aria-label="Settings" hidden>
+    <div class="drawer-head">
+      <h2>Settings</h2>
+      <span class="drawer-sub">Saved with this workspace</span>
+      <button class="icon-btn" type="button" data-close title="Close">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8" /></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="settings-body"></div>
+    <div class="drawer-foot">
+      <button class="btn ghost" type="button" id="settings-reset">Reset to defaults</button>
+      <button class="btn ghost" type="button" id="settings-json">Edit as JSON</button>
+      <span class="toolbar-gap"></span>
+      <button class="btn primary" type="button" data-close>Done</button>
+    </div>
+  </aside>
+
+  <dialog class="dialog" id="welcome-dialog" aria-labelledby="welcome-title">
+    <form method="dialog">
+      <h2 id="welcome-title">Welcome to Sievepad</h2>
+      <p class="dialog-text">
+        Write and test Sieve email filters against real messages, powered by the Sieve interpreter of
+        <a href="https://stalw.art" target="_blank" rel="noopener">Stalwart Mail Server</a>.
+      </p>
+      <ul class="welcome-points">
+        <li>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4.5 7V5a3.5 3.5 0 017 0v2M3.5 7h9v6.5h-9z" /></svg>
+          <span><b>Everything runs in your browser.</b> Scripts are compiled and executed locally with WebAssembly.</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2.5 4.5h11v8h-11zM5 4.5V3h6v1.5" /></svg>
+          <span><b>Nothing is stored on a server.</b> Your scripts, messages and settings are saved only in this browser.</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 9l4-2M6 7l4 2M4.5 10a2 2 0 100-4 2 2 0 000 4zM11.5 6a2 2 0 100-4 2 2 0 000 4zM11.5 14a2 2 0 100-4 2 2 0 000 4z" /></svg>
+          <span><b>Sharing is up to you.</b> A share link carries the workspace inside the link itself; nothing is uploaded.</span>
+        </li>
+      </ul>
+      <div class="dialog-foot">
+        <span class="toolbar-gap"></span>
+        <button class="btn primary" value="close" autofocus>Start filtering</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="share-dialog">
+    <form method="dialog">
+      <h2>Share workspace</h2>
+      <p class="dialog-text">
+        The workspace is compressed into the link itself. Nothing is uploaded: whoever opens the link gets their own copy.
+      </p>
+      <label class="check">
+        <input type="checkbox" id="share-messages" checked />
+        Include test messages
+      </label>
+      <p class="dialog-warning" id="share-privacy">Messages may contain personal information. Check them before sharing.</p>
+      <div class="share-row">
+        <input id="share-url" type="text" readonly spellcheck="false" />
+        <button class="btn primary" type="button" id="share-copy">Copy link</button>
+      </div>
+      <p class="dialog-note" id="share-size"></p>
+      <div class="dialog-foot">
+        <button class="btn ghost" type="button" data-action="export-workspace">Export to file instead</button>
+        <span class="toolbar-gap"></span>
+        <button class="btn" value="close">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="prompt-dialog">
+    <form method="dialog">
+      <h2 id="prompt-title"></h2>
+      <p class="dialog-text" id="prompt-text"></p>
+      <input id="prompt-input" type="text" spellcheck="false" autocomplete="off" />
+      <div class="dialog-foot">
+        <span class="toolbar-gap"></span>
+        <button class="btn" value="cancel" formnovalidate>Cancel</button>
+        <button class="btn primary" value="ok" id="prompt-ok">OK</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="file-input" accept=".json,.eml,.sieve,.siv,.txt,message/rfc822" hidden />
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script>
+    self.MonacoEnvironment = {
+      getWorkerUrl: () => new URL("./vendor/monaco-0.52.2/vs/base/worker/workerMain.js", location.href).href,
+    };
+  </script>
+  <script src="./vendor/monaco-0.52.2/vs/loader.js"></script>
+  <script>
+    window.monacoReady = new Promise((resolve, reject) => {
+      require.config({ paths: { vs: "./vendor/monaco-0.52.2/vs" } });
+      require(["vs/editor/editor.main"], () => resolve(window.monaco), reject);
+    });
+  </script>
+  <script type="module" src="__ASSETS__/app.js" onerror="try { if (!sessionStorage.getItem('sievepad.reloaded')) { sessionStorage.setItem('sievepad.reloaded', '1'); location.reload(); } } catch (_) {}"></script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+Sievepad
+Copyright (c) 2026 Stalwart Labs LLC. All rights reserved.
+
+This repository and everything in it, including the source code, scripts,
+stylesheets, markup, sample files, documentation and the compiled
+WebAssembly bundle (together, the "Software"), are proprietary to Stalwart
+Labs LLC and are protected by copyright and other intellectual property laws.
+The Software is made publicly visible for transparency only. Visibility does
+not grant any license.
+
+1. Permitted use
+
+   You may view the Software on the hosting platform where Stalwart Labs LLC
+   publishes it, and you may use the hosted service at https://sievepad.com
+   through a web browser for its intended purpose.
+
+   If you fork the repository on that platform, the fork may be used only to
+   submit contributions back to the original repository.
+
+2. Restrictions
+
+   Except as expressly permitted in section 1 or in a separate written
+   agreement signed by Stalwart Labs LLC, you may not, in whole or in part:
+
+   a. copy, reproduce, download for redistribution or mirror the Software;
+   b. modify, translate, adapt or create derivative works of the Software;
+   c. distribute, publish, sublicense, sell, rent, lend or otherwise make the
+      Software available to any third party;
+   d. host, deploy or operate the Software, or any work derived from it, as a
+      website, service or application, whether commercial or not;
+   e. extract, decompile, disassemble or reverse engineer the WebAssembly
+      bundle, except to the extent applicable law expressly permits this
+      notwithstanding this limitation;
+   f. use the Software, or any portion of it, to build, train or improve a
+      competing product or service, or as training data for machine learning
+      models;
+   g. remove or alter any copyright, trademark or proprietary notice.
+
+3. Contributions
+
+   By submitting a contribution (such as a pull request or patch) you grant
+   Stalwart Labs LLC a perpetual, worldwide, irrevocable, royalty-free license
+   to use, modify, sublicense and distribute your contribution under any terms,
+   and you confirm that you have the right to grant this license.
+
+4. Trademarks
+
+   "Stalwart" are trademarks of Stalwart Labs LLC. Nothing in
+   this notice grants any right to use them.
+
+5. Third-party components
+
+   Third-party components, such as the Monaco Editor that the build downloads
+   and ships under its own MIT license, remain subject to their respective
+   licenses. This notice does not restrict any right granted by those
+   licenses for those components.
+
+6. Termination
+
+   Any use of the Software in violation of this notice is unauthorized and
+   automatically terminates any permission granted in section 1.
+
+7. Disclaimer
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+   STALWART LABS LLC BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY ARISING
+   FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+For licensing inquiries, contact hello@stalw.art.
